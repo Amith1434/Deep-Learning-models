@@ -4,3 +4,4 @@ __pycache__/
 *.pth
 data/
 root/
+09_LSTM/household_power_consumption (1).txt
