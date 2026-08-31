@@ -35,8 +35,7 @@ class IMDBDataset(Dataset):
 
 if __name__ == "__main__":
 
-    dataset = IMDBDataset("aclImdb/train")
-
+    dataset = IMDBDataset("11_self_attention/aclImdb/train")
     print("Dataset size:", len(dataset))
 
     review, label = dataset[0]
@@ -44,4 +43,32 @@ if __name__ == "__main__":
     print("Label:", label)
     print("Review:", review[:500])
 
-    
+
+def tokenize(text):
+    return text.lower().split()
+
+review,label = dataset[0]
+tokens = tokenize(review)
+print("Label : ",label)
+print("Original : ")
+print(review[:200])
+print("\nTokens : ")
+print(tokens[:20])
+
+
+def build_vocab(dataset,min_freq = 2):
+    word_count = {}
+    for review, _ in dataset:
+        tokens = tokenize(review)
+        for token in tokens:
+            word_count[token] = word_count.get(token,0)+1
+    vocab = {
+        "<PAD>":0,
+        "<UNK>":1
+
+    }
+
+    for word,count in word_count.items():
+        if count >= min_freq:
+            vocab[word] = len(vocab)
+    return vocab
